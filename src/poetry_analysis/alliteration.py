@@ -125,6 +125,33 @@ def group_alliterating_indices(
     return result_groups
 
 
+def group_words_by_initial_letter(words: list[str], indices: bool = False) -> dict:
+    """Iterate over a list of words and append the word or its position to a dict
+    with the word-initial letter as the key.
+
+    Args:
+        words: List of word tokens (str).
+        indices: If True, append the word position (int)
+            in the word list to the output dictionary.
+
+    Returns:
+        dict: a dictionary with single letters as keys
+             and lists of words beginning on the letters as the values.
+    """
+    seen = {}
+    for i, word in enumerate(words):
+        # Ensure word is not empty before accessing word_token[0]
+        if (not word) or (not word[0].isalpha()):
+            continue
+
+        initial_letter = word[0].casefold()
+        if initial_letter in seen:
+            seen[initial_letter].append(word)
+        else:
+            seen[initial_letter] = [word]
+    return seen
+
+
 def find_line_alliterations(text: str, allowed_intervening_words: list | None = None) -> list:  # noqa: C901
     """Find alliterating words on a line.
 
