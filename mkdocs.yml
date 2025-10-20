@@ -17,6 +17,11 @@ nav:
     - Lyric subject: api_lyrical_subject.md
     - Utility functions: api_utils.md
   - 'Issue Tracker': 'https://github.com/norn-uio/poetry-analysis/issues/'
+
+
+exclude_docs: |
+  /requirements.txt
+
 plugins:
   - search
   - mkdocs-jupyter
@@ -29,6 +34,7 @@ plugins:
             docstring_style: google
             show_root_heading: true
             show_source: true
+
 
 theme:
   name: material
