@@ -9,7 +9,8 @@ authors = [
 dependencies = [
     "nb-tokenizer",
     "pandas",
-    "convert-pa"
+    "convert-pa",
+    "matplotlib"
 ]
 requires-python = ">=3.11"
 readme = "README.md"
