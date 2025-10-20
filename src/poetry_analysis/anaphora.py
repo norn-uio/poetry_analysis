@@ -220,7 +220,13 @@ def construct_anaphora_df(df: pd.DataFrame, anaphora_length: int = 1) -> pd.Data
                     "text": [text[i] for i in indeces],
                 }
 
-                dfs.append(pd.DataFrame(annotation))
+                dfs.append(pd.DataFrame([annotation]))
+
+    if not dfs:
+        # Return an empty DataFrame with the expected columns
+        columns = ["poem_id", "stanza_id", "line_id", "phrase", "count", "text"]
+        return pd.DataFrame(columns=columns)
+
     anaphora_df = pd.concat(dfs).reset_index(drop=True)
     return anaphora_df
 
