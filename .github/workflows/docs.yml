@@ -16,6 +16,18 @@ jobs:
             - name: Checkout main
               uses: actions/checkout@v5
 
+            - name: Setup PDM
+              uses: pdm-project/setup-pdm@v4
+              # You are now able to use PDM in your workflow
+              with:
+                  python-version: 3.11
+
+            - name: Lock dependencies
+              run: pdm lock -d -G docs
+
+            - name: Install dependencies
+              run: pdm install
+              shell: bash
               # pdm: pdm export -f requirements --no-hashes --no-markers -G docs -o docs/requirements.txt
 
             - name: Deploy docs
