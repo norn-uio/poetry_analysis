@@ -165,8 +165,7 @@ def find_line_alliterations(text: str, allowed_intervening_words: list | None = 
     Returns:
         list of lists of words that are alliterating
     """
-    if allowed_intervening_words is None:
-        allowed_intervening_words = ["og", "i", "er"]
+    filler_words = ["og", "i", "er"] if allowed_intervening_words is None else allowed_intervening_words
 
     words = normalize(text)
 
@@ -186,7 +185,7 @@ def find_line_alliterations(text: str, allowed_intervening_words: list | None = 
         if len(positions) <= 1:  # Need at least two words starting with this letter
             continue
         # Group indices considering allowed intervening words and get the words
-        alliterating_groups = group_alliterating_indices(positions, words, allowed_intervening_words)
+        alliterating_groups = group_alliterating_indices(positions, words, filler_words)
         annotations += alliterating_groups
 
     return annotations
