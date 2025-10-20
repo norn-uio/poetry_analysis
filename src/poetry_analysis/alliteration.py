@@ -73,11 +73,11 @@ def extract_alliteration(text: list[str]) -> list[dict]:
 
 
 # New helper function to group indices considering stop words
-def group_alliterating_indices(
+def group_alliterating_word_indices(
     indices: list[int], all_words_in_line: list[str], stop_words: list[str]
 ) -> list[list[int]]:
     """
-    Groups indices of words that alliterate, allowing specified ``stop_words`` in between.
+    Groups words that alliterate, allowing specified ``stop_words`` in between.
 
     Args:
         indices: Indides of alliterating words in the line.
@@ -85,7 +85,7 @@ def group_alliterating_indices(
         stop_words: Words allowed to intervene between alliterating words.
 
     Returns:
-        list of groups, each group is a list of indices of alliterating words,
+        list of groups, each group is a list of alliterating words,
             where allowed stop words may intervene between them.
     """
     if not indices:
@@ -185,7 +185,7 @@ def find_line_alliterations(text: str, allowed_intervening_words: list | None = 
         if len(positions) <= 1:  # Need at least two words starting with this letter
             continue
         # Group indices considering allowed intervening words and get the words
-        alliterating_groups = group_alliterating_indices(positions, words, filler_words)
+        alliterating_groups = group_alliterating_word_indices(positions, words, filler_words)
         annotations += alliterating_groups
 
     return annotations
