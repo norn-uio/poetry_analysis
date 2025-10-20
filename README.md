@@ -43,4 +43,4 @@ This tool was developed as a collaboration project between a literary scholar an
 - Ingerid Dale [<img src="https://raw.githubusercontent.com/FortAwesome/Font-Awesome/refs/heads/6.x/svgs/brands/github.svg" width="20" height="20">](https://github.com/ingerid)
 [<img src="https://raw.githubusercontent.com/FortAwesome/Font-Awesome/6.x/svgs/solid/envelope.svg" width="20" height="20">](mailto:ingerid.dale@nb.no)
 
-If you discover any bugs, have any questions, or suggestions for improvements, please open an issue and assign an appropriate label to it. Contributions and pull requests are also welcome! Please check out the [contributing](./CONTRIBUTING.md) document for guidelines.
+If you discover any bugs, have any questions, or suggestions for improvements, please open an issue and assign an appropriate label to it. Contributions and pull requests are also welcome! Please check out the [contributing](https://github.com/norn-uio/poetry-analysis?tab=contributing-ov-file) section in the repo for guidelines.
