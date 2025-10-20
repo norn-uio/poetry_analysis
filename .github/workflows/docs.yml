@@ -30,13 +30,7 @@ jobs:
               shell: bash
               # pdm: pdm export -f requirements --no-hashes --no-markers -G docs -o docs/requirements.txt
 
-            - name: Deploy docs
-              uses: mhausenblas/mkdocs-deploy-gh-pages@master
-              # Or use mhausenblas/mkdocs-deploy-gh-pages@nomaterial to build without the mkdocs-material theme
+            - name: Deploy documentation
+              run: pdm run mkdocs gh-deploy --force
               env:
                   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-                  # CUSTOM_DOMAIN: optionaldomain.com
-                  # CONFIG_FILE: folder/mkdocs.yml
-                  # EXTRA_PACKAGES: build-base
-                  # GITHUB_DOMAIN: github.myenterprise.com
-                  REQUIREMENTS: docs/requirements.txt
