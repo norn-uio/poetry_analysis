@@ -207,17 +207,17 @@ def construct_anaphora_df(df: pd.DataFrame, anaphora_length: int = 1) -> pd.Data
     for (poem_id, stanza_id), df_ in df.groupby(["poem_id", "stanza_id"]):
         text = df_.text.dropna().tolist()
         stanza_anaphora = extract_stanza_anaphora(text, n_words=anaphora_length)
-        for phrase, indeces in stanza_anaphora.items():
-            if len(indeces) <= 1:
+        for phrase, indices in stanza_anaphora.items():
+            if len(indices) <= 1:
                 continue
-            if all(is_successive(indeces)):
+            if all(is_successive(indices)):
                 annotation = {
                     "poem_id": poem_id,
                     "stanza_id": int(stanza_id),
-                    "line_id": indeces,
+                    "line_id": indices,
                     "phrase": phrase,
-                    "count": len(indeces),
-                    "text": [text[i] for i in indeces],
+                    "count": len(indices),
+                    "text": [text[i] for i in indices],
                 }
 
                 dfs.append(pd.DataFrame([annotation]))
