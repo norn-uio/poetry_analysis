@@ -5,7 +5,7 @@
 [![License](https://img.shields.io/pypi/l/poetry-analysis)](https://creativecommons.org/licenses/by/4.0/deed.en)
 [![Github Action tests](https://github.com/norn-uio/poetry-analysis/actions/workflows/check.yml/badge.svg?branch=main&event=push)](https://github.com/norn-uio/poetry-analysis/actions/workflows/check.yml)
 
-- **Github repository**: <https://github.com/norn-uio/poetry-analysis/>
+- **GitHub repository**: <https://github.com/norn-uio/poetry-analysis/>
 - **Documentation**: <https://norn-uio.github.io/poetry-analysis/>
 
 Rule-based tool to extract repetition patterns and other lyric features from poetry, or other text data where the newline is a meaningful segment boundary.
