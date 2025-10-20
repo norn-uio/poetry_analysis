@@ -73,11 +73,11 @@ def extract_alliteration(text: list[str]) -> list[dict]:
 
 
 # New helper function to group indices considering stop words
-def group_alliterating_indices(
+def group_alliterating_word_indices(
     indices: list[int], all_words_in_line: list[str], stop_words: list[str]
 ) -> list[list[int]]:
     """
-    Groups indices of words that alliterate, allowing specified ``stop_words`` in between.
+    Groups words that alliterate, allowing specified ``stop_words`` in between.
 
     Args:
         indices: Indides of alliterating words in the line.
@@ -85,7 +85,7 @@ def group_alliterating_indices(
         stop_words: Words allowed to intervene between alliterating words.
 
     Returns:
-        list of groups, each group is a list of indices of alliterating words,
+        list of groups, each group is a list of alliterating words,
             where allowed stop words may intervene between them.
     """
     if not indices:
@@ -122,10 +122,40 @@ def group_alliterating_indices(
     if len(current_group_indices) >= 2:
         result_groups.append(list(current_group_indices))
 
-    return result_groups
+    alliteration_groups = [[all_words_in_line[i] for i in group_indices] for group_indices in result_groups]
+
+    return alliteration_groups
 
 
-def find_line_alliterations(text: str, allowed_intervening_words: list | None = None) -> list:  # noqa: C901
+def group_words_by_initial_letter(words: list[str], store_indices: bool = False) -> dict:
+    """Iterate over a list of words and append the word or its position to a dict
+    with the word-initial letter as the key.
+
+    Args:
+        words: List of word tokens (str).
+        store_indices: If True, append the word position (int)
+            in the word list to the output dictionary.
+
+    Returns:
+        dict: a dictionary with single letters as keys
+             and lists of words beginning on the letters as the values.
+    """
+    seen = {}
+    for i, word in enumerate(words):
+        # Ensure word is not empty before accessing word_token[0]
+        if (not word) or (not word[0].isalpha()):
+            continue
+
+        initial_letter = word[0].casefold()
+        item = i if store_indices else word
+        if initial_letter in seen:
+            seen[initial_letter].append(item)
+        else:
+            seen[initial_letter] = [item]
+    return seen
+
+
+def find_line_alliterations(text: str, allowed_intervening_words: list | None = None) -> list:
     """Find alliterating words on a line.
 
     Args:
@@ -135,43 +165,30 @@ def find_line_alliterations(text: str, allowed_intervening_words: list | None = 
     Returns:
         list of lists of words that are alliterating
     """
-    if allowed_intervening_words is None:
-        allowed_intervening_words = ["og", "i", "er"]
+    filler_words = ["og", "i", "er"] if allowed_intervening_words is None else allowed_intervening_words
 
     words = normalize(text)
 
     # Stores {initial_letter: [indices_of_words_starting_with_this_letter]}
-    seen = {}
-    for j, word_token in enumerate(words):
-        if not word_token:  # Handle potential empty strings from tokenizer
-            continue
-        # Ensure word_token is not empty before accessing word_token[0]
-        if not word_token[0].isalpha():
-            continue
-        initial_letter = word_token[0].lower()
+    seen = group_words_by_initial_letter(words, store_indices=True)
 
-        if initial_letter in seen:
-            seen[initial_letter].append(j)
-        else:
-            seen[initial_letter] = [j]
-
-    alliteration_annotations = []
+    annotations = []
     # The following logic identifies all groups of words in the line that start with the same consonant,
     # treating them as alliterations if the initial letter appears more than once and grouping them
     # while allowing certain intervening words.
-    if any(len(idx_list) > 1 for idx_list in seen.values()):
-        for symbol, positions in seen.items():
-            if is_vowel(symbol):  # Only extract consonant alliterations
-                continue
-            if len(positions) > 1:  # Need at least two words starting with this letter
-                # Group indices considering allowed intervening words
-                alliterating_groups = group_alliterating_indices(positions, words, allowed_intervening_words)
+    if not any(len(idx_list) > 1 for idx_list in seen.values()):
+        return annotations
 
-                for group_indices in alliterating_groups:
-                    # group_alliterating_indices already ensures len(group_indices) >= 2
-                    alliteration_annotations.append([words[p] for p in group_indices])
+    for symbol, positions in seen.items():
+        if is_vowel(symbol):  # Only extract consonant alliterations
+            continue
+        if len(positions) <= 1:  # Need at least two words starting with this letter
+            continue
+        # Group indices considering allowed intervening words and get the words
+        alliterating_groups = group_alliterating_word_indices(positions, words, filler_words)
+        annotations += alliterating_groups
 
-    return alliteration_annotations
+    return annotations
 
 
 def is_vowel(symbol: str) -> bool:

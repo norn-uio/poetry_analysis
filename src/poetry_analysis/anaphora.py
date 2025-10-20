@@ -1,15 +1,14 @@
 """Anaphora is the repetition of the same line-initial word or phrase
 in a verse, or across consecutive verses in a stanza.
-
-TODO: It can also refer to the repetition of a whole stanza-initial verse line
-in consecutive stanzas.
-> NOTE: This has not been implemented yet.
-This anaphora detection process is based on the repetition of the first word in each line.
-We will continue with implementing a grading system for how effective the figure is in each poem.
 """
+
+# TODO: Implement a function to extract the repetition of a
+# whole stanza-initial verse line in consecutive stanzas.
 
 from collections import Counter, defaultdict
 from collections.abc import Generator
+
+import pandas as pd
 
 from poetry_analysis import utils
 
@@ -197,7 +196,39 @@ def extract_anaphora(text: str) -> dict:
         ngrams = {ngram: count for ngram, count in ngram_counts[n].items() if count > 1}
         if ngrams:
             anaphora[ngram_type] = ngrams
+
     return anaphora
+
+
+def construct_anaphora_df(df: pd.DataFrame, anaphora_length: int = 1) -> pd.DataFrame:
+    """Extract anaphora from a stanza in a dataframe"""
+    dfs = []
+
+    for (poem_id, stanza_id), df_ in df.groupby(["poem_id", "stanza_id"]):
+        text = df_.text.dropna().tolist()
+        stanza_anaphora = extract_stanza_anaphora(text, n_words=anaphora_length)
+        for phrase, indices in stanza_anaphora.items():
+            if len(indices) <= 1:
+                continue
+            if all(is_successive(indices)):
+                annotation = {
+                    "poem_id": poem_id,
+                    "stanza_id": int(stanza_id),
+                    "line_id": indices,
+                    "phrase": phrase,
+                    "count": len(indices),
+                    "text": [text[i] for i in indices],
+                }
+
+                dfs.append(pd.DataFrame([annotation]))
+
+    if not dfs:
+        # Return an empty DataFrame with the expected columns
+        columns = ["poem_id", "stanza_id", "line_id", "phrase", "count", "text"]
+        return pd.DataFrame(columns=columns)
+
+    anaphora_df = pd.concat(dfs).reset_index(drop=True)
+    return anaphora_df
 
 
 if __name__ == "__main__":
