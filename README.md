@@ -37,7 +37,7 @@ pip install poetry-analysis
 ## Contact
 
 This tool was developed as a collaboration project between a literary scholar and a computational linguist in the [NORN project](https://www.hf.uio.no/iln/english/research/projects/norn-norwegian-romantic-nationalisms/index.html), and the work has been funded by the ERC.
-If you discover any bugs, have any questions, or suggestions for improvements, please open an issue and assign an appropriate label to it. 
+If you discover any bugs, have any questions, or suggestions for improvements, please open an [issue](https://github.com/norn-uio/poetry-analysis/issues) and assign an appropriate label to it. 
 Contributions and pull requests are also welcome! 
 Please check out the [contributing](https://github.com/norn-uio/poetry-analysis?tab=contributing-ov-file) section in the repo for guidelines.
 
