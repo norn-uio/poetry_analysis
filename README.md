@@ -36,11 +36,21 @@ pip install poetry-analysis
 
 ## Contact
 
-This tool was developed as a collaboration project between a literary scholar and a computational linguist in the [NORN project](https://www.hf.uio.no/iln/english/research/projects/norn-norwegian-romantic-nationalisms/index.html):
+This tool was developed as a collaboration project between a literary scholar and a computational linguist in the [NORN project](https://www.hf.uio.no/iln/english/research/projects/norn-norwegian-romantic-nationalisms/index.html), and the work has been funded by the ERC.
+If you discover any bugs, have any questions, or suggestions for improvements, please open an issue and assign an appropriate label to it. 
+Contributions and pull requests are also welcome! 
+Please check out the [contributing](https://github.com/norn-uio/poetry-analysis?tab=contributing-ov-file) section in the repo for guidelines.
 
 - Ranveig Kvinnsland [<img src="https://raw.githubusercontent.com/FortAwesome/Font-Awesome/refs/heads/6.x/svgs/brands/github.svg" width="20" height="20" alt="GitHub icon">](https://github.com/ranveigk)
 [<img src="https://raw.githubusercontent.com/FortAwesome/Font-Awesome/6.x/svgs/solid/envelope.svg" width="20" height="20" alt="Email icon">](mailto:ranveig.kvinnsland@ibsen.uio.no)
 - Ingerid Dale [<img src="https://raw.githubusercontent.com/FortAwesome/Font-Awesome/refs/heads/6.x/svgs/brands/github.svg" width="20" height="20" alt="GitHub icon">](https://github.com/ingerid)
 [<img src="https://raw.githubusercontent.com/FortAwesome/Font-Awesome/6.x/svgs/solid/envelope.svg" width="20" height="20" alt="Email icon">](mailto:ingerid.dale@nb.no)
 
-If you discover any bugs, have any questions, or suggestions for improvements, please open an issue and assign an appropriate label to it. Contributions and pull requests are also welcome! Please check out the [contributing](https://github.com/norn-uio/poetry-analysis?tab=contributing-ov-file) section in the repo for guidelines.
+
+
+## License
+
+<a href="https://github.com/norn-uio/poetry-analysis">poetry-analysis</a> © 2025 is licensed under 
+<a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>
+<img src="https://mirrors.creativecommons.org/presskit/icons/cc.svg" alt="Creative Commons icon" width="20" height="20" style="max-width: 1em;max-height:1em;margin-left: .2em;">
+<img src="https://mirrors.creativecommons.org/presskit/icons/by.svg" alt="Attribution icon" width="20" height="20" style="max-width: 1em;max-height:1em;margin-left: .2em;">
