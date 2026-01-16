@@ -1,4 +1,4 @@
-# poetry-analysis
+# poetry_analysis
 
 [![Python Version from PEP 621 TOML](https://img.shields.io/python/required-version-toml?tomlFilePath=https%3A%2F%2Fraw.githubusercontent.com%2Fnorn-uio%2Fpoetry-analysis%2Frefs%2Fheads%2Fmain%2Fpyproject.toml)](https://www.python.org/downloads/)
 [![PyPI - Version](https://img.shields.io/pypi/v/poetry-analysis)](https://pypi.org/project/poetry-analysis/)
