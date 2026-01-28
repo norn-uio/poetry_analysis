@@ -2,9 +2,6 @@
 in a verse, or across consecutive verses in a stanza.
 """
 
-# TODO: Implement a function to extract the repetition of a
-# whole stanza-initial verse line in consecutive stanzas.
-
 from collections import Counter, defaultdict
 from collections.abc import Generator
 
