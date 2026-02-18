@@ -159,7 +159,7 @@ def group_words_by_initial_letter(words: list[str], store_indices: bool = False)
 def find_line_alliterations(
     text: str,
     allowed_intervening_words: list | None = None,
-    letter_type: Literal["both", "vowel", "consonant"] | str = "both",
+    letter_type: Literal["both", "vowel", "consonant"] = "both",
 ) -> list:
     """Find alliterating words on a line.
 
