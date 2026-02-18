@@ -25,3 +25,14 @@ def test_find_all_letters(poem_with_vowel_alliteration):
     assert all(word.startswith("h") for word in result[1])
     assert all(word.startswith("o") for word in result[2])
     assert all(word.startswith("i") for word in result[3])
+
+
+def test_find_line_alliterations_default_behavior(poem_with_vowel_alliteration):
+    # When letter_type is not specified, the function should behave as if "both" were selected,
+    # preserving backward-compatible behavior.
+    result = find_line_alliterations(poem_with_vowel_alliteration)
+
+    assert all(word.startswith("a") for word in result[0])
+    assert all(word.startswith("h") for word in result[1])
+    assert all(word.startswith("o") for word in result[2])
+    assert all(word.startswith("i") for word in result[3])
