@@ -1,5 +1,5 @@
 [project]
-name = "poetry-analysis"
+name = "poetry_analysis"
 dynamic = ["version"]
 description = "Tool to parse and annotate Norwegian poetry."
 authors = [
