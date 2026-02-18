@@ -25,3 +25,55 @@ def test_extract_epiphora_ignores_case():
     result = extract_epiphora(input_texts)
 
     assert result[1]["overlap"] == result[2]["overlap"] == "a word"
+
+
+def test_extract_epiphora_empty_input_returns_empty_dict():
+    # given
+    input_texts = []
+
+    # when
+    result = extract_epiphora(input_texts)
+
+    # then
+    assert result == {}
+
+
+def test_extract_epiphora_single_line_returns_empty_dict():
+    # given
+    input_texts = ["Only one line here."]
+
+    # when
+    result = extract_epiphora(input_texts)
+
+    # then
+    assert result == {}
+
+
+def test_extract_epiphora_no_overlapping_endings_returns_empty_dict():
+    # given
+    input_texts = [
+        "This line ends with apple",
+        "Another one ends with banana",
+        "Here is a third line ending with cherry",
+    ]
+
+    # when
+    result = extract_epiphora(input_texts)
+
+    # then
+    assert result == {}
+
+
+def test_extract_epiphora_ignores_whitespace_only_overlap():
+    # given: lines share only trailing whitespace as a common ending
+    input_texts = [
+        "First line with spaces   ",
+        "Second different content   ",
+        "Third line also padded   ",
+    ]
+
+    # when
+    result = extract_epiphora(input_texts)
+
+    # then: whitespace-only overlap should not be treated as epiphora
+    assert result == {}
