@@ -2,7 +2,7 @@
 of word-initial consonants or consonant clusters.
 """
 
-from typing import Optional, Literal
+from typing import Literal
 from poetry_analysis.utils import normalize
 
 
