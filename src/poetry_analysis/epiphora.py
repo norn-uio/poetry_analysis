@@ -31,5 +31,4 @@ def extract_epiphora(text_sequence: list[str]) -> dict:
         if overlap:
             epiphora[idx] = {"previous_text": previous, "current_text": current, "overlap": overlap}
         previous_text = current
-    print(epiphora)
     return epiphora
