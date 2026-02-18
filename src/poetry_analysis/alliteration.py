@@ -2,6 +2,7 @@
 of word-initial consonants or consonant clusters.
 """
 
+from typing import Literal
 from poetry_analysis.utils import normalize
 
 
@@ -155,7 +156,11 @@ def group_words_by_initial_letter(words: list[str], store_indices: bool = False)
     return seen
 
 
-def find_line_alliterations(text: str, allowed_intervening_words: list | None = None) -> list:
+def find_line_alliterations(
+    text: str,
+    allowed_intervening_words: list | None = None,
+    letter_type: Literal["both", "vowel", "consonant"] = "both",
+) -> list:
     """Find alliterating words on a line.
 
     Args:
@@ -180,9 +185,11 @@ def find_line_alliterations(text: str, allowed_intervening_words: list | None = 
         return annotations
 
     for symbol, positions in seen.items():
-        if is_vowel(symbol):  # Only extract consonant alliterations
-            continue
-        if len(positions) <= 1:  # Need at least two words starting with this letter
+        if (
+            ((letter_type == "consonant") and is_vowel(symbol))
+            or ((letter_type == "vowel") and (not is_vowel(symbol)))
+            or (len(positions) <= 1)  # Need at least two words starting with this letter
+        ):
             continue
         # Group indices considering allowed intervening words and get the words
         alliterating_groups = group_alliterating_word_indices(positions, words, filler_words)

@@ -186,6 +186,15 @@ Her er saa underligt...
 
 
 @pytest.fixture
+def poem_with_vowel_alliteration():
+    return """Alle andre alltid går
+Her hvor heksas huff og harme
+over osen og okseskinnet
+inntil iskledte isdammer
+"""
+
+
+@pytest.fixture
 def poem_with_alliteration():
     """Poem ID: 2735_Sirius_som_Séer_no-nb_digibok_2009010803031"""
     return """Stjerneklare Septembernat
