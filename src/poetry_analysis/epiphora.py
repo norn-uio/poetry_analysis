@@ -19,17 +19,17 @@ def shared_ending_substring(string1: str, string2: str) -> str:
 def extract_epiphora(text_sequence: list[str]) -> dict:
     """Iterate over a list of strings in `text_sequence` and extract overlapping segments in successive strings."""
     epiphora = {}
-    previous_texts = []
+    previous_text = None
     for idx, text in enumerate(text_sequence):
         current = normalize(text, split_tokens=False)
         if idx == 0:
-            previous_texts.append(current)
+            previous_text = current
             continue
 
-        previous = previous_texts[idx - 1]
+        previous = previous_text
         overlap = strip_redundant_whitespace(shared_ending_substring(previous, current))
         if overlap:
             epiphora[idx] = {"previous_text": previous, "current_text": current, "overlap": overlap}
-        previous_texts.append(current)
+        previous_text = current
     print(epiphora)
     return epiphora
