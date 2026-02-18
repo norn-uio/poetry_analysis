@@ -1,8 +1,8 @@
-"""Epiphora or epistrophe is the repetition of the same word or phrase at the end
+"""Epiphora, or epistrophe, is the repetition of the same word or phrase at the end
 of successive clauses in a line, or of successive lines in a stanza.
 """
 
-# TODO: Implement a function taking a list as input, and comparing the last element in each item of the list
+from poetry_analysis.utils import normalize, strip_redundant_whitespace
 
 
 def shared_ending_substring(string1: str, string2: str) -> str:
@@ -20,27 +20,16 @@ def extract_epiphora(text_sequence: list[str]) -> dict:
     """Iterate over a list of strings in `text_sequence` and extract overlapping segments in successive strings."""
     epiphora = {}
     previous_texts = []
-    for idx, current in enumerate(text_sequence):
+    for idx, text in enumerate(text_sequence):
+        current = normalize(text, split_tokens=False)
         if idx == 0:
             previous_texts.append(current)
             continue
 
         previous = previous_texts[idx - 1]
-        overlap = shared_ending_substring(previous, current)
+        overlap = strip_redundant_whitespace(shared_ending_substring(previous, current))
         if overlap:
             epiphora[idx] = {"previous_text": previous, "current_text": current, "overlap": overlap}
         previous_texts.append(current)
     print(epiphora)
     return epiphora
-
-
-def test_extract_epiphora_detects_repeated_words():
-    # given
-    input_texts = ["Så gjør vi så når vi vasker vårt tøy", "vasker vårt tøy", "vasker vårt tøy"]
-    # when
-    result = extract_epiphora(input_texts)
-
-    assert result[1]["overlap"] == result[2]["overlap"] == "vasker vårt tøy"
-
-
-test_extract_epiphora_detects_repeated_words()
