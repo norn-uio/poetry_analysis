@@ -8,8 +8,8 @@ from convert_pa import nofabet_to_ipa, nofabet_to_syllables
 from nb_tokenizer import tokenize
 
 PUNCTUATION_MARKS = str(
-    string.punctuation + "‒.,!€«»’”—⁷⁶⁰–‒––!”-?‒"
-)  # Note! The three long dashes look identical, but are different unicode characters
+    string.punctuation + "‒.,!?£$€%«»’”⁷⁶⁰—–––-"
+)  # Note! The long dashes look identical, but are different unicode characters
 
 VALID_NUCLEI = [
     "aa",
@@ -69,8 +69,16 @@ def strip_redundant_whitespace(text: str) -> str:
     return re.sub(r"\s+", " ", text).strip()
 
 
+def normalize(text: str, split_tokens: bool = True) -> list[str] | str:
+    """Lowercase, remove punctuation and tokenize a string of text."""
+    lowercase = text.strip().casefold()
+    alphanumeric_only = strip_punctuation(lowercase)
+    words = tokenize(alphanumeric_only) if split_tokens else alphanumeric_only
+    return words
+
+
 def strip_punctuation(string: str) -> str:
-    """Remove punctuation from a string"""
+    """Remove punctuation and redundant whitespace from a string"""
     alphanumstr = ""
     for char in string:
         if not is_punctuation(char):
@@ -257,14 +265,6 @@ def gather_stanza_annotations(func) -> Callable:
 def split_stanzas(text: str) -> list:
     """Split a poem into stanzas and stanzas into verses."""
     return [[verse.rstrip() for verse in stanza.rstrip().splitlines()] for stanza in re.split("\n{2,}", text) if stanza]
-
-
-def normalize(text: str) -> list[str]:
-    """Lowercase, remove punctuation and tokenize a string of text."""
-    lowercase = text.strip().lower()
-    alpanumeric_only = strip_punctuation(lowercase)
-    words = tokenize(alpanumeric_only)
-    return words
 
 
 def annotate(func, text: str, stanzaic: bool = False, outputfile: str | Path | None = None):
