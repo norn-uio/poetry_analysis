@@ -2,6 +2,7 @@
 in a verse, or across consecutive verses in a stanza.
 """
 
+import warnings
 from collections import Counter, defaultdict
 from collections.abc import Generator
 
@@ -84,7 +85,7 @@ def extract_stanza_anaphora(stanza: list[str], n_words: int = 1) -> dict:
     """
     stanza_anaphora = {}
     empty_list = []
-    lines = [utils.normalize(line) if line else empty_list for line in stanza]
+    lines = [utils.normalize_tokens(line) if line else empty_list for line in stanza]
     for line_index, words in enumerate(lines):
         if not words:
             continue
@@ -140,8 +141,11 @@ def detect_repeating_lines(text: str) -> list:
     return [(indeces, line) for line, indeces in repeating_lines.items()]
 
 
-def extract_anaphora(text: str) -> dict:
+def extract_anaphora_old(text: str) -> dict:
     """Extract line-initial word sequences that are repeated at least twice.
+
+    Warning:
+        This function is deprecated and should not be used in new code. It is only kept for reference.
 
     Examples:
         >>> import json
@@ -155,7 +159,7 @@ def extract_anaphora(text: str) -> dict:
         ...
         ... En regndraabe!
         ... '''
-        >>> result = extract_anaphora(text)
+        >>> result = extract_anaphora_old(text)
         >>> print(json.dumps(result, indent=4))
         {
             "1-grams": {
@@ -175,6 +179,9 @@ def extract_anaphora(text: str) -> dict:
             }
         }
     """
+    warnings.warn(
+        "extract_anaphora_old is deprecated and will be removed in a future version.", DeprecationWarning, stacklevel=2
+    )
     lines = text.strip().lower().splitlines()
     ngram_counts = defaultdict(lambda: defaultdict(int))
 
@@ -210,7 +217,7 @@ def construct_anaphora_df(df: pd.DataFrame, anaphora_length: int = 1) -> pd.Data
             if all(is_successive(indices)):
                 annotation = {
                     "poem_id": poem_id,
-                    "stanza_id": int(stanza_id),
+                    "stanza_id": int(stanza_id),  # type: ignore PGH003
                     "line_id": indices,
                     "phrase": phrase,
                     "count": len(indices),
@@ -226,6 +233,11 @@ def construct_anaphora_df(df: pd.DataFrame, anaphora_length: int = 1) -> pd.Data
 
     anaphora_df = pd.concat(dfs).reset_index(drop=True)
     return anaphora_df
+
+
+def extract_anaphora(text_sequence: list[str]) -> dict:
+    """Extract overlapping substrings in the beginning of each text in the `text_sequence`."""
+    return utils.extract_repeated_substrings(text_sequence, overlap_position="initial")
 
 
 if __name__ == "__main__":
