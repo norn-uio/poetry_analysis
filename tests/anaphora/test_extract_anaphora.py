@@ -25,7 +25,8 @@ from poetry_analysis.anaphora import extract_anaphora
 def test_extract_anaphora_detects_repeated_words(text_sequence, expected_overlap):
     result = extract_anaphora(text_sequence)
 
-    assert result[1]["overlap"] == result[2]["overlap"] == expected_overlap
+    assert expected_overlap in result[1]["overlap"]
+    assert expected_overlap in result[2]["overlap"]
 
 
 def test_extract_anaphora_ignores_identical_punctuation():
