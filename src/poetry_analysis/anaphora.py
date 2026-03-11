@@ -2,6 +2,7 @@
 in a verse, or across consecutive verses in a stanza.
 """
 
+import warnings
 from collections import Counter, defaultdict
 from collections.abc import Generator
 from typing import Literal
@@ -141,7 +142,6 @@ def detect_repeating_lines(text: str) -> list:
     return [(indeces, line) for line, indeces in repeating_lines.items()]
 
 
-@DeprecationWarning
 def extract_anaphora_old(text: str) -> dict:
     """Extract line-initial word sequences that are repeated at least twice.
 
@@ -180,6 +180,9 @@ def extract_anaphora_old(text: str) -> dict:
             }
         }
     """
+    warnings.warn(
+        "extract_anaphora_old is deprecated and will be removed in a future version.", DeprecationWarning, stacklevel=2
+    )
     lines = text.strip().lower().splitlines()
     ngram_counts = defaultdict(lambda: defaultdict(int))
 
