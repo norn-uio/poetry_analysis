@@ -332,7 +332,7 @@ def shared_initial_substring(string1: str, string2: str) -> str:
         if string1[i] != string2[i]:
             initial_substring = string1[:i] if i > 1 else ""
             return initial_substring
-    return string1[: min_length + 1] if min_length > 0 else ""
+    return string1[:min_length] if min_length > 0 else ""
 
 
 def shared_final_substring(string1: str, string2: str) -> str:
