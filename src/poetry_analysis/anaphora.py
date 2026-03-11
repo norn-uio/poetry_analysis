@@ -14,9 +14,7 @@ from poetry_analysis import utils
 def count_initial_phrases(text: str) -> Counter:
     """Count the number of times string-initial phrases of different lengths occur in a string."""
     phrase_counts = Counter()
-
-    lowercase = text.strip().lower()
-    normalized_text = utils.strip_punctuation(lowercase)
+    normalized_text = utils.normalize_string(text)
     words = utils.tokenize(normalized_text)
     n_words = len(words)
 
@@ -39,11 +37,14 @@ def find_longest_most_frequent_anaphora(phrases: Counter) -> tuple:
         longest_count = phrases[longest_phrase]
 
         return longest_phrase, longest_count
-    return (None, 0)
+    return ("", 0)
 
 
-def extract_line_anaphora(text: str) -> list:
-    """Extract line initial word sequences that are repeated at least twice on the same line."""
+def extract_line_anaphora_old(text: str) -> list:
+    """Extract line initial word sequences that are repeated at least twice on the same line.
+
+    Deprecated.
+    """
     anaphora = []
     lines = text.strip().splitlines()
     for i, line in enumerate(lines):
@@ -77,6 +78,8 @@ def filter_anaphora(stanza_anaphora: dict) -> Generator:
 
 def extract_stanza_anaphora(stanza: list[str], n_words: int = 1) -> dict:
     """Gather indeces for all lines that a line-initial word repeats across successively.
+
+    DEPRECATED: This function is deprecated and should not be used in new code. It is only kept for reference.
 
     Args:
         n_words: Number of words to expect in the anaphora, must be 1 or higher.
@@ -238,6 +241,13 @@ def construct_anaphora_df(df: pd.DataFrame, anaphora_length: int = 1) -> pd.Data
 def extract_anaphora(text_sequence: list[str]) -> dict:
     """Extract overlapping substrings in the beginning of each text in the `text_sequence`."""
     return utils.extract_repeated_substrings(text_sequence, overlap_position="initial")
+
+
+def extract_line_anaphora(text: str) -> dict:
+    """Extract initial word sequences that are repeated at least twice in the same text string."""
+    initial_phrases = count_initial_phrases(text)
+    phrase, count = find_longest_most_frequent_anaphora(initial_phrases)
+    return {"phrase": phrase, "count": count} if count > 1 and phrase else {}
 
 
 if __name__ == "__main__":
