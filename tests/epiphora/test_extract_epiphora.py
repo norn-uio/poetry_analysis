@@ -117,4 +117,6 @@ def test_extract_epiphora_full_text_only_catches_successive_overlaps():
     result = extract_epiphora(input_texts)
     overlaps = [item["overlap"] for k, item in result.items()]
     assert overlaps, "Expected at least one epiphora overlap to be detected"
-    assert all("vårt tøy" in item for item in overlaps)
+    assert result[1]["overlap"] == result[2]["overlap"] == "vasker vårt tøy"
+    assert result[5]["overlap"] == result[6]["overlap"] == "skyller vårt tøy"
+    assert result[9]["overlap"] == result[10]["overlap"] == "henger opp vårt tøy"
