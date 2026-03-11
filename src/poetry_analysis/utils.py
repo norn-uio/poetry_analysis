@@ -356,7 +356,8 @@ def extract_repeated_substrings(text_sequence: list[str], overlap_position: Lite
     elif overlap_position == "final":
         shared_substring = shared_final_substring
     else:
-        raise ValueError("Invalid overlap_position. Must be 'initial' or 'final'.")
+        print("Invalid overlap_position. Must be 'initial' or 'final'.")
+        raise ValueError()
     previous_text = normalize_string(text_sequence[0])
     for idx in range(1, len(text_sequence)):
         current = normalize_string(text_sequence[idx])

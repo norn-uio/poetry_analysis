@@ -217,7 +217,7 @@ def construct_anaphora_df(df: pd.DataFrame, anaphora_length: int = 1) -> pd.Data
             if all(is_successive(indices)):
                 annotation = {
                     "poem_id": poem_id,
-                    "stanza_id": int(stanza_id),  # type: ignore
+                    "stanza_id": int(stanza_id),  # type: ignore PGH003
                     "line_id": indices,
                     "phrase": phrase,
                     "count": len(indices),
