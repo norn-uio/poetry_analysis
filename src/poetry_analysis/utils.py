@@ -3,6 +3,7 @@ import re
 import string
 from collections.abc import Callable, Generator
 from pathlib import Path
+from typing import Literal
 
 from convert_pa import nofabet_to_ipa, nofabet_to_syllables
 from nb_tokenizer import tokenize
@@ -321,6 +322,51 @@ def group_consecutive_numbers(nums: list[int]) -> list[list[int]]:
 
     result.append(current_group)
     return result
+
+
+def shared_initial_substring(string1: str, string2: str) -> str:
+    """Find the shared substring at the beginning of two strings."""
+    min_length = min(len(string1), len(string2))
+
+    for i in range(0, min_length + 1):
+        if string1[i] != string2[i]:
+            initial_substring = string1[: i + 1] if i > 1 else ""
+            return initial_substring
+    return string1[: min_length + 1] if min_length > 0 else ""
+
+
+def shared_final_substring(string1: str, string2: str) -> str:
+    """Find the shared substring at the end of two strings."""
+    min_length = min(len(string1), len(string2))
+
+    for i in range(1, min_length + 1):
+        if string1[-i] != string2[-i]:
+            final_substring = string1[-i + 1 :] if i > 1 else ""
+            return final_substring
+    return string1[-min_length:] if min_length > 0 else ""
+
+
+def extract_repeated_substrings(text_sequence: list[str], overlap_position: Literal["initial", "final"]) -> dict:
+    """Iterate over a list of strings in `text_sequence` and extract overlapping segments in successive strings."""
+    annotations = {}
+    previous_text = None
+    if overlap_position == "initial":
+        shared_substring = shared_initial_substring
+    elif overlap_position == "final":
+        shared_substring = shared_final_substring
+    else:
+        raise ValueError("Invalid overlap_position. Must be 'initial' or 'final'.")
+    for idx, text in enumerate(text_sequence):
+        current = normalize_string(text)
+        if idx == 0:
+            previous_text = current
+            continue
+
+        overlap = strip_redundant_whitespace(shared_substring(previous_text, current))  # type: ignore
+        if overlap:
+            annotations[idx] = {"previous_text": previous_text, "current_text": current, "overlap": overlap}
+        previous_text = current
+    return annotations
 
 
 if __name__ == "__main__":
