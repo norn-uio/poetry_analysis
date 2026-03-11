@@ -69,11 +69,18 @@ def strip_redundant_whitespace(text: str) -> str:
     return re.sub(r"\s+", " ", text).strip()
 
 
-def normalize(text: str, split_tokens: bool = True) -> list[str] | str:
+def normalize_tokens(text: str) -> list[str]:
     """Lowercase, remove punctuation and tokenize a string of text."""
     lowercase = text.strip().casefold()
     alphanumeric_only = strip_punctuation(lowercase)
-    words = tokenize(alphanumeric_only) if split_tokens else alphanumeric_only
+    words = tokenize(alphanumeric_only)
+    return words
+
+
+def normalize_string(text: str) -> str:
+    """Lowercase, remove punctuation in a string of text."""
+    lowercase = text.strip().casefold()
+    words = strip_punctuation(lowercase)
     return words
 
 
