@@ -100,3 +100,22 @@ def test_extract_anaphora_ignores_whitespace_only_overlap():
 
     # then: whitespace-only overlap should not be treated as anaphora
     assert result == {}
+
+
+def test_extract_anaphora_full_stanza_initial_lines():
+    input_texts = [
+        """Så gjør vi så når vi vasker vårt tøy,
+        vasker vårt tøy,
+        vasker vårt tøy,
+        tidlig en mandags morgen""",
+        """Så gjør vi så når vi skyller vårt tøy,
+        skyller vårt tøy,
+        skyller vårt tøy,
+        tidlig en tirsdags morgen""",
+        """Så gjør vi så når vi henger opp vårt tøy,
+        henger opp vårt tøy,
+        henger opp vårt tøy,
+        tidlig en onsdags morgen""",
+    ]
+    result = extract_anaphora(input_texts)
+    assert result[1]["overlap"] == "så gjør vi så når vi"
