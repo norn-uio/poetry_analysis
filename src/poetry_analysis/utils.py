@@ -328,9 +328,9 @@ def shared_initial_substring(string1: str, string2: str) -> str:
     """Find the shared substring at the beginning of two strings."""
     min_length = min(len(string1), len(string2))
 
-    for i in range(0, min_length + 1):
+    for i in range(0, min_length):
         if string1[i] != string2[i]:
-            initial_substring = string1[: i + 1] if i > 1 else ""
+            initial_substring = string1[:i] if i > 1 else ""
             return initial_substring
     return string1[: min_length + 1] if min_length > 0 else ""
 
