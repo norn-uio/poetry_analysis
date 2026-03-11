@@ -349,20 +349,18 @@ def shared_final_substring(string1: str, string2: str) -> str:
 def extract_repeated_substrings(text_sequence: list[str], overlap_position: Literal["initial", "final"]) -> dict:
     """Iterate over a list of strings in `text_sequence` and extract overlapping segments in successive strings."""
     annotations = {}
-    previous_text = None
+    if not text_sequence:
+        return annotations
     if overlap_position == "initial":
         shared_substring = shared_initial_substring
     elif overlap_position == "final":
         shared_substring = shared_final_substring
     else:
         raise ValueError("Invalid overlap_position. Must be 'initial' or 'final'.")
-    for idx, text in enumerate(text_sequence):
-        current = normalize_string(text)
-        if idx == 0:
-            previous_text = current
-            continue
-
-        overlap = strip_redundant_whitespace(shared_substring(previous_text, current))  # type: ignore
+    previous_text = normalize_string(text_sequence[0])
+    for idx in range(1, len(text_sequence)):
+        current = normalize_string(text_sequence[idx])
+        overlap = strip_redundant_whitespace(shared_substring(previous_text, current))
         if overlap:
             annotations[idx] = {"previous_text": previous_text, "current_text": current, "overlap": overlap}
         previous_text = current
