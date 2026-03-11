@@ -119,3 +119,4 @@ def test_extract_anaphora_full_stanza_initial_lines():
     ]
     result = extract_anaphora(input_texts)
     assert result[1]["overlap"] == "så gjør vi så når vi"
+    assert result[2]["overlap"] == "så gjør vi så når vi"
