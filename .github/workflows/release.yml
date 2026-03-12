@@ -58,6 +58,4 @@ jobs:
 
   deploy-docs:
     needs: pypi-publish
-    uses: norn-uio/poetry_analysis/.github/workflows/docs.yml@main
-    secrets:
-      personal_access_token: ${{ secrets.GITHUB_TOKEN }}
+    uses: ./.github/workflows/docs.yml
