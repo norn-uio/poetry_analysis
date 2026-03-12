@@ -11,24 +11,25 @@ jobs:
     name: Deploy docs
     runs-on: ubuntu-latest
     permissions:
-      pages: write
+      contents: write
     steps:
-      - name: Checkout main
+      - name: Checkout repository
         uses: actions/checkout@v5
 
       - name: Setup PDM
         uses: pdm-project/setup-pdm@v4
-        # You are now able to use PDM in your workflow
         with:
           python-version: 3.11
 
       - name: Lock dependencies
         run: pdm lock -d -G docs
 
+      - name: Export dependencies
+        run: pdm export -f requirements --no-hashes --no-markers -G docs -o docs/requirements.txt
+
       - name: Install dependencies
         run: pdm install
         shell: bash
-        # pdm: pdm export -f requirements --no-hashes --no-markers -G docs -o docs/requirements.txt
 
       - name: Deploy documentation
         run: pdm run mkdocs gh-deploy --force
