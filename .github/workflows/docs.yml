@@ -22,9 +22,6 @@ jobs:
       - name: Lock dependencies
         run: pdm lock -d -G docs
 
-      - name: Export dependencies
-        run: pdm export -f requirements --no-hashes --no-markers -G docs -o docs/requirements.txt
-
       - name: Install dependencies
         run: pdm install
         shell: bash
