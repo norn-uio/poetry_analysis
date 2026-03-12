@@ -58,4 +58,6 @@ jobs:
 
   deploy-docs:
     needs: pypi-publish
+    permissions:
+      contents: write
     uses: ./.github/workflows/docs.yml
