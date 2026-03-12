@@ -2,6 +2,9 @@ name: Publish docs via GitHub Pages
 
 on:
   workflow_call:
+    secrets:
+      personal_access_token:
+        required: false
   workflow_dispatch:
 
 jobs:
