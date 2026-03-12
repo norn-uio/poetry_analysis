@@ -31,7 +31,7 @@ uv venv --python 3.11
 source .venv/bin/activate
 
 # Install poetry_analysis
-pip install poetry-analysis
+pip install poetry_analysis
 ```
 
 ## Contact
