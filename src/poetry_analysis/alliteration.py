@@ -203,6 +203,8 @@ def find_line_alliterations(
 
 def is_vowel(symbol: str) -> bool:
     vowels = "aeiouyøæå"
+    if len(symbol) > 1:
+        return all(is_vowel(character) for character in symbol)
     return symbol.casefold() in vowels
 
 
